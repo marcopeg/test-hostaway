@@ -1,0 +1,22 @@
+table:
+  name: users
+  schema: auth
+array_relationships:
+  - name: todos
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: todos
+          schema: data
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - id
+        - username
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+      limit: 1
+    comment: ""

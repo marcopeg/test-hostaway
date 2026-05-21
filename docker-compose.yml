@@ -1,0 +1,73 @@
+services:
+  postgres:
+    image: postgres:17
+    restart: unless-stopped
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./apps/bff/initdb/01-create-hasura-metadata.sql:/docker-entrypoint-initdb.d/01-create-hasura-metadata.sql:ro
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 1s
+      retries: 20
+
+  hasura:
+    image: hasura/graphql-engine:v2.48.0
+    ports:
+      - "${HASURA_PORT:-8080}:8080"
+    restart: always
+    environment:
+      # Metadata DB
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-postgres}@postgres:5432/hasura_metadata
+      # Application DB
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-postgres}@postgres:5432/postgres
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_PASSWORD:-hasura}
+      # Dev Mode - disable in production!
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+      HASURA_GRAPHQL_DEV_MODE: "true"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: timeout 1s bash -c ':> /dev/tcp/127.0.0.1/8080' || exit 1
+      interval: 2s
+      timeout: 1s
+      retries: 20
+    # host.docker.interal does not resolve in linux, so we need to add it manually
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  # Kickstart the backend services
+  # and applies the initial state
+  # (migration, metadata, seeds)
+  boot:
+    container_name: boot
+    build:
+      context: apps/bff
+      dockerfile: Dockerfile
+    entrypoint: ["/bff/migrate.sh"]
+    working_dir: /bff
+    volumes:
+      - ./apps/bff:/bff:ro
+    environment:
+      HASURA_GRAPHQL_ADMIN_SECRET: "${HASURA_ADMIN_SECRET:-hasura}"
+      HASURA_GRAPHQL_ENDPOINT: http://hasura:8080
+      HASURA_APPLY_MIGRATIONS: "true"
+      HASURA_APPLY_METADATA: "true"
+      HASURA_APPLY_SEEDS: "true"
+      HASURA_VERIFY: "true"
+    depends_on:
+      hasura:
+        condition: service_healthy
+
+volumes:
+  postgres:
+
+networks:
+  default:
+    name: hasura

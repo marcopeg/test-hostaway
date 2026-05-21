@@ -1,6 +1,17 @@
 # Hostaway Code Test
 
+For this test I used:
+
+- coffee, lot of it
+- Codex
+- Docker & Docker Compose
+- Hasura.io
+- React / Apollo Client / React Router / Tailwind
+- more coffee
+
 ## System Design
+
+![System Design](./docs/artifacts/design.svg)
 
 ### Adapter Pattern
 
@@ -50,4 +61,8 @@ The UI is based on Tailwind and I will try to convert a few screenshot from the 
 - Imagined and document (here, up above) the system design.
 - Evaluated and decided the technical stack
 
+`commit: b2fdf481e9fc47ca0ac5f6d21b4321302d7a44d1``
 
+### 14:40 Boilerplate & Cleanup
+
+As mentioned, I'm going to copy over from another project.
