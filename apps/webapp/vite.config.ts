@@ -21,7 +21,6 @@ export default defineConfig({
   resolve: {
     alias: {
       providers: resolve(rootDir, 'src/providers'),
-      containers: resolve(rootDir, 'src/containers'),
       components: resolve(rootDir, 'src/components'),
       hooks: resolve(rootDir, 'src/hooks'),
       lib: resolve(rootDir, 'src/lib'),

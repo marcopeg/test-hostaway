@@ -33,6 +33,37 @@ echo "Call me in for the discussion anyway and we can check it out together ;-)"
 You should get the app going at:  
 http://localhost:5173
 
+You can inspect the Hasura project & data model at:  
+http://localhost:8080
+(password: hasura)
+
+**NOTE:** You can ask your AI more or less any details. It should be able to guide you through it.
+
+## 🤖 A Word About AI
+
+I have used AI heavily during this task. And in a way more aggressive way that I would do for a real app, **or suggest to do in public**.
+
+Even so, I used a set of skills that I keep curating over and over, project after project.
+These are the `backlog-*` and `vibe-*` skills.
+
+Even if I dared push hard on the accelerator, you will find that every idea, refinement Q&A, development plan and execution notes are documented in a file-system indexed backlog.
+
+In the **Age of Agents** this becomes a super-power of natural documentation, from which is possible to extract so much value. So part of this exercise is to share with you a possible approach to AI-assisted development.
+
+Is the quality good enough?  
+_Well, it's not as good as if I did write everything my self._
+
+How long would have taken to reach the same result?  
+And write this README along the way?  
+_Many days._
+
+Codex threads:
+
+- 019e4aad-46fb-7bd1-98fc-7280ec5e4ebd
+- 019e4ace-8a52-7631-8aa8-f6b2f79ae96b
+- 019e4ae7-7d44-7ff1-8c11-6206282e0532
+- 019e4aff-b2d1-70d1-95a9-4181a7266902
+
 ## System Design
 
 ![System Design](./docs/artifacts/design.svg)
@@ -85,13 +116,13 @@ The UI is based on Tailwind and I will try to convert a few screenshot from the 
 - Imagined and document (here, up above) the system design.
 - Evaluated and decided the technical stack
 
-`commit: b2fdf481e9fc47ca0ac5f6d21b4321302d7a44d1`
+`git checkout b2fdf481e9fc47ca0ac5f6d21b4321302d7a44d1`
 
 ### 14:40 Boilerplate & Cleanup
 
 As mentioned, I'm going to copy over from another project.
 
-`commit: 0fb4b7832b11a03eaf52b90068136fa3e282bc9e`
+`git checkout 0fb4b7832b11a03eaf52b90068136fa3e282bc9e`
 
 ### 15:14 Design Data Model
 
@@ -104,7 +135,7 @@ The more I dig into the draft task, the more I realize it's not a kid's game.
 I will not manage view receipts or stuff like that.  
 Maybe tonight.
 
-`commit: d19da00ad8ad91b5a687d75b3ee4e4febbad9136`
+`git checkout d19da00ad8ad91b5a687d75b3ee4e4febbad9136`
 
 ### 15:50 Design Mood Board
 
@@ -115,7 +146,7 @@ Let's see.
 The result of this step is a mocked UI that looks rather nice to me:
 ![mood-ui](./docs/artifacts/mood-ui.png)
 
-`commit: 3aa66b72c6779f84abb654a8dbc6fc295aede9cd``
+`git checkout 3aa66b72c6779f84abb654a8dbc6fc295aede9cd``
 
 ### ~2h and a Half
 
@@ -134,8 +165,52 @@ _(I have a local Electron App that let me visually follow and manage my in-repo 
 
 There is a massive feature ongoing (YW27) that potentially will implement one-shot the whole basic working demo. I have mixed feelings about it, it's a lot in one single feature.
 
-### 16:40
+### 16:40 Massive Task
 
 I have drafted a MASSIVE TASK (I would NEVER do that for real... this was a real stretch... but it's a first iteration and I'm out of time) to generate the functionalities all at once.
 
-`commit: ba7ccd3247b184e02e037cfd7c9d0572e56409ca`
+It worked better than expected, but there is a lot of work to still do to make this MVP good for a presentation.
+
+`git checkout e0fc48eccd7c09371109affef45d3100d10f1228`
+
+### 17:11 Vibe Coding my Way Forward
+
+I will now start a vibe coding session that will be recorded and documented as part of my development lifecycle.
+
+## Conclusions
+
+Thank you for this test. It made me take a quick look under the hood at the complexity that Hostaway manages.
+
+If the goal was to scare me away, sorry. I don't scare easy 🤘.
+
+### It's an MVP!
+
+This MVP shows some potential features in the Unified Inbox:
+
+- helicopter view with stats and labels
+- AI-driven mood & topic analysis (this is done by a thrid party service ofc)
+- optimistic outbox pattern (the full BFF is just a localized materialization of events from a variety of micro-services in Hostaway!)
+- live updates
+- give or take: multi-tenant multi-operator, multi-guest booking data model
+
+I flag this solution as a basic POC, a clickable mockup.  
+In my book, this is not yet a "first iteration".
+
+### Testing
+
+I didn't have the time to test ANYTHING.
+I took a look at the proposed execution plan and the hasura metadata and it looks Codex did well - it usually does. But I haven't tested it.
+
+My testing strategy for this project would be:
+
+- Vitest based API happi paths / edge cases with different credentials to probe the configuration
+- Playwrigth for E2E testing on the UI
+
+The backend is basically ready for it, we have a programmatic way to reset/restore a state of the app, and it can be applied to Testcontainers to parallelize it as well.
+
+### Data Bottleneck
+
+I've heavily relied on GraphQL-based aggregations.  
+That would kill the most powerful server in production, with a decent amount of customers.
+
+Moving forward, I'd introduce a metrics service that consumes the very same messages from the bus, but keeps counters up-to-date so that different entities (from dashboard to the threads) enjoy eventual-consistency but cheap-to-read metrics.

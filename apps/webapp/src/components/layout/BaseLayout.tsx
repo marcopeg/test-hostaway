@@ -1,5 +1,32 @@
+import { gql } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import { Link, Outlet } from '@tanstack/react-router'
-import { UserInfo } from 'containers'
+
+const GET_HEADER_IDENTITY = gql`
+  query GetHeaderIdentity($tenantId: String!, $userId: String!) {
+    tenant: auth_tenants(where: { id: { _eq: $tenantId } }, limit: 1) {
+      id
+      name
+    }
+    me: auth_users(where: { id: { _eq: $userId } }, limit: 1) {
+      icon
+      id
+      name
+    }
+  }
+`
+
+type HeaderIdentityQuery = {
+  tenant: Array<{
+    id: string
+    name: string
+  }>
+  me: Array<{
+    icon: string
+    id: string
+    name: string
+  }>
+}
 
 const navItems = [
   { icon: 'OV', label: 'Overview', path: '/overview' },
@@ -16,6 +43,65 @@ const navItems = [
   { icon: 'CM', label: 'Channel manager', path: '/channel-manager' },
   { icon: 'SE', label: 'Settings', path: '/settings' },
 ] as const
+
+const TopBar = () => {
+  const tenantId = __GRAPHQL_CONFIG__.headers['tenant-id'] ?? 'Unknown tenant'
+  const userId = __GRAPHQL_CONFIG__.headers['user-id'] ?? 'Unknown user id'
+  const { data: identityData, loading: isLoadingIdentity } =
+    useQuery<HeaderIdentityQuery>(GET_HEADER_IDENTITY, {
+      variables: { tenantId, userId },
+    })
+
+  const tenant = identityData?.tenant.at(0)
+  const user = identityData?.me.at(0)
+  const tenantName = tenant?.name ?? tenantId
+  const username = user?.name ?? userId
+
+  return (
+    <header className="flex min-h-16 items-center justify-between border-b border-hw-border bg-hw-surface px-4 sm:px-5 lg:px-6">
+      <div className="flex min-w-0 items-center gap-4">
+        <button
+          className="flex h-9 w-9 items-center justify-center rounded-hw-control border border-hw-border bg-hw-surface text-lg font-semibold text-hw-muted shadow-hw-panel lg:hidden"
+          type="button"
+          aria-label="Open navigation"
+        >
+          =
+        </button>
+        <div className="min-w-0">
+          <p className="m-0 text-[11px] font-semibold tracking-[0.08em] text-hw-faint uppercase">
+            Guest operations
+          </p>
+          <h1 className="m-0 truncate text-xl font-semibold text-hw-ink sm:text-2xl">
+            Unified Inbox
+          </h1>
+        </div>
+      </div>
+
+      <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+        <div className="hidden text-right sm:block">
+          <p className="m-0 text-sm font-semibold text-hw-ink">
+            {isLoadingIdentity ? 'Loading tenant' : tenantName}
+          </p>
+          <p className="m-0 text-sm text-hw-muted">
+            {isLoadingIdentity ? 'Loading user' : username}
+          </p>
+        </div>
+
+        {user?.icon ? (
+          <img
+            alt=""
+            className="h-10 w-10 rounded-full bg-hw-orange object-cover shadow-hw-panel"
+            src={user.icon}
+          />
+        ) : (
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-hw-orange text-lg font-semibold italic text-white shadow-hw-panel">
+            H
+          </div>
+        )}
+      </div>
+    </header>
+  )
+}
 
 export const BaseLayout = () => {
   return (
@@ -45,7 +131,7 @@ export const BaseLayout = () => {
         </aside>
 
         <section className="flex min-w-0 flex-1 flex-col">
-          <UserInfo />
+          <TopBar />
           <div className="min-h-0 min-w-0 flex-1">
             <Outlet />
           </div>

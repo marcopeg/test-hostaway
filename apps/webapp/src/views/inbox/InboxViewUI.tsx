@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { SplitLayout } from 'components'
 import { DetailsPanel, MessageList } from './components'
 import { Stats } from './containers/stats'
@@ -25,6 +26,8 @@ export const InboxViewUI = ({
   stats,
   threads,
 }: InboxViewUIProps) => {
+  const [threadFilter, setThreadFilter] = useState('')
+
   return (
     <SplitLayout
       center={
@@ -38,6 +41,7 @@ export const InboxViewUI = ({
           <Stats
             errorMessage={errorMessage}
             isLoading={isLoading}
+            onSelectFilter={setThreadFilter}
             stats={stats}
           />
         )
@@ -45,6 +49,8 @@ export const InboxViewUI = ({
       left={
         <ThreadList
           isLoading={isLoading}
+          onSearchChange={setThreadFilter}
+          searchValue={threadFilter}
           selectedThreadId={selectedThreadId}
           threads={threads}
         />

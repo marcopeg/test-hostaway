@@ -39,11 +39,11 @@ VALUES
 
 INSERT INTO data.channels (id, name, icon, updated_at)
 VALUES
-  ('air', 'Airbnb', 'https://logo.clearbit.com/airbnb.com', '2026-05-21T10:10:00Z'),
-  ('bkc', 'Booking.com', 'https://logo.clearbit.com/booking.com', '2026-05-21T10:10:00Z'),
-  ('vrb', 'Vrbo', 'https://logo.clearbit.com/vrbo.com', '2026-05-21T10:10:00Z'),
-  ('exp', 'Expedia', 'https://logo.clearbit.com/expedia.com', '2026-05-21T10:10:00Z'),
-  ('gvr', 'Google Vacation Rentals', 'https://logo.clearbit.com/google.com', '2026-05-21T10:10:00Z');
+  ('air', 'Airbnb', '/airbnb.png', '2026-05-21T10:10:00Z'),
+  ('bkc', 'Booking.com', '/booking.png', '2026-05-21T10:10:00Z'),
+  ('vrb', 'Vrbo', '/vrbo.webp', '2026-05-21T10:10:00Z'),
+  ('exp', 'Expedia', '/expedia.png', '2026-05-21T10:10:00Z'),
+  ('gvr', 'Google Vacation Rentals', '/google.png', '2026-05-21T10:10:00Z');
 
 INSERT INTO data.listings (id, tenant_id, name, updated_at)
 VALUES

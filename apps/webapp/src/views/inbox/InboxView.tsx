@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 import { useMutation, useQuery } from '@apollo/client/react'
 import { useMemo } from 'react'
-import { humanizeValue } from './format'
+import { humanizeValue, isClassifiedValue } from './format'
 import { InboxViewUI } from './InboxViewUI'
 import type {
   CountMetric,
@@ -173,6 +173,10 @@ type SendPendingMessageVariables = {
 
 const countBy = (values: Array<string | null | undefined>): Array<CountMetric> => {
   const counts = values.reduce<Record<string, number>>((accumulator, value) => {
+    if (!isClassifiedValue(value)) {
+      return accumulator
+    }
+
     const label = humanizeValue(value)
     accumulator[label] = (accumulator[label] ?? 0) + 1
 

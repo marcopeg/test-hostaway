@@ -1,4 +1,4 @@
-import { ChannelIcon, SignalBadge } from '.'
+import { ChannelIcon, MoodFlag, StageFlag, TopicFlag } from '.'
 import { formatDate, formatFullDateTime, getNights } from '../format'
 import type { InboxThread } from '../types'
 
@@ -26,9 +26,8 @@ export const DetailsPanel = ({ thread }: DetailsPanelProps) => {
           {thread.listing?.name ?? 'Listing not attached'}
         </h3>
         <div className="mt-3 flex flex-wrap gap-1.5">
-          <SignalBadge kind="mood" value={thread.mood} />
-          <SignalBadge kind="topic" value={thread.topic} />
-          <SignalBadge kind="stage" value={booking?.stage} />
+          <MoodFlag value={thread.mood} />
+          <TopicFlag value={thread.topic} />
         </div>
       </section>
 
@@ -66,7 +65,10 @@ export const DetailsPanel = ({ thread }: DetailsPanelProps) => {
       </section>
 
       <section className="rounded-hw-panel border border-hw-border bg-hw-surface p-4 shadow-hw-panel">
-        <h4 className="m-0 text-sm font-semibold text-hw-ink">Booking</h4>
+        <div className="flex items-start justify-between gap-3">
+          <h4 className="m-0 text-sm font-semibold text-hw-ink">Booking</h4>
+          <StageFlag value={booking?.stage} />
+        </div>
         {booking ? (
           <>
             <div className="mt-4 rounded-hw-panel border border-hw-border bg-hw-surface-muted p-4">

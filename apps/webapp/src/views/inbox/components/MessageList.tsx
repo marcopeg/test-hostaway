@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import { ChannelIcon, SignalBadge } from '.'
+import { ChannelIcon, MoodFlag, TopicFlag } from '.'
 import {
   formatFullDateTime,
   formatShortTime,
   humanizeValue,
+  isClassifiedValue,
 } from '../format'
 import type { InboxMessage, InboxThread } from '../types'
 
@@ -76,6 +77,9 @@ export const MessageList = ({
   const [isExpanded, setIsExpanded] = useState(false)
   const [message, setMessage] = useState('')
   const canSend = message.trim().length > 0 && !isSending
+  const replyPlaceholder = isClassifiedValue(thread.topic)
+    ? `Reply about ${humanizeValue(thread.topic)}`
+    : 'Reply to this conversation'
 
   const handleSubmit = () => {
     if (!canSend) {
@@ -102,8 +106,8 @@ export const MessageList = ({
             </p>
           </div>
           <div className="hidden flex-wrap justify-end gap-1.5 md:flex">
-            <SignalBadge kind="mood" value={thread.mood} />
-            <SignalBadge kind="topic" value={thread.topic} />
+            <MoodFlag value={thread.mood} variant="compact" />
+            <TopicFlag value={thread.topic} variant="compact" />
           </div>
         </div>
       </header>
@@ -120,7 +124,7 @@ export const MessageList = ({
             <textarea
               className="min-h-24 w-full resize-none rounded-hw-control border border-hw-border bg-hw-surface px-3 py-2 text-sm text-hw-ink outline-none placeholder:text-hw-faint focus:border-hw-teal"
               onChange={(event) => setMessage(event.target.value)}
-              placeholder={`Reply about ${humanizeValue(thread.topic)}`}
+              placeholder={replyPlaceholder}
               value={message}
             />
             <div className="mt-3 flex items-center justify-between gap-3">

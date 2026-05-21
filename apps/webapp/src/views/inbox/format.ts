@@ -8,6 +8,10 @@ export const humanizeValue = (value?: string | null) => {
     .replace(/\b\w/g, (character) => character.toUpperCase())
 }
 
+export const isClassifiedValue = (value?: string | null) => {
+  return Boolean(value && value.trim().toLowerCase() !== 'unclassified')
+}
+
 export const formatShortTime = (value: string) => {
   return new Intl.DateTimeFormat(undefined, {
     hour: '2-digit',

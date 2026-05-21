@@ -26,6 +26,8 @@ select_permissions:
         - updated_at
       filter:
         _or:
+          - id:
+              _eq: X-Hasura-User-Id
           - messages:
               tenant_id:
                 _eq: X-Hasura-Tenant-Id

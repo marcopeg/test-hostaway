@@ -12,8 +12,6 @@
     "paths": {
       "providers": ["./src/providers"],
       "providers/*": ["./src/providers/*"],
-      "containers": ["./src/containers"],
-      "containers/*": ["./src/containers/*"],
       "components": ["./src/components"],
       "components/*": ["./src/components/*"],
       "hooks": ["./src/hooks"],
