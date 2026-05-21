@@ -1,0 +1,4 @@
+interface:
+  display_name: "Hostaway UI"
+  short_description: "Build Hostaway-like operational React/Tailwind interfaces."
+  default_prompt: "Use Hostaway UI guidance to build a dense, messaging-first operational interface with Tailwind."
