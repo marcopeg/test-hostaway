@@ -59,10 +59,11 @@ _Many days._
 
 Codex threads:
 
-- 019e4aad-46fb-7bd1-98fc-7280ec5e4ebd
-- 019e4ace-8a52-7631-8aa8-f6b2f79ae96b
-- 019e4ae7-7d44-7ff1-8c11-6206282e0532
-- 019e4aff-b2d1-70d1-95a9-4181a7266902
+- [019e4aad-46fb-7bd1-98fc-7280ec5e4ebd](./docs/codex/pretty/019e4aad-46fb-7bd1-98fc-7280ec5e4ebd.json) ([raw](./docs/codex/raw/019e4aad-46fb-7bd1-98fc-7280ec5e4ebd))
+- [019e4ace-8a52-7631-8aa8-f6b2f79ae96b](./docs/codex/pretty/019e4ace-8a52-7631-8aa8-f6b2f79ae96b.json) ([raw](./docs/codex/raw/019e4ace-8a52-7631-8aa8-f6b2f79ae96b))
+- [019e4ae7-7d44-7ff1-8c11-6206282e0532](./docs/codex/pretty/019e4ae7-7d44-7ff1-8c11-6206282e0532.json) ([raw](./docs/codex/raw/019e4ae7-7d44-7ff1-8c11-6206282e0532))
+- [019e4aff-b2d1-70d1-95a9-4181a7266902](./docs/codex/pretty/019e4aff-b2d1-70d1-95a9-4181a7266902.json) ([raw](./docs/codex/raw/019e4aff-b2d1-70d1-95a9-4181a7266902))
+- [019e4b17-e439-74e0-803e-d276a4a70b74](./docs/codex/pretty/019e4b17-e439-74e0-803e-d276a4a70b74.json) ([raw](./docs/codex/raw/019e4b17-e439-74e0-803e-d276a4a70b74))
 
 ## System Design
 
