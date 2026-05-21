@@ -61,8 +61,12 @@ The UI is based on Tailwind and I will try to convert a few screenshot from the 
 - Imagined and document (here, up above) the system design.
 - Evaluated and decided the technical stack
 
-`commit: b2fdf481e9fc47ca0ac5f6d21b4321302d7a44d1``
+`commit: b2fdf481e9fc47ca0ac5f6d21b4321302d7a44d1`
 
 ### 14:40 Boilerplate & Cleanup
 
 As mentioned, I'm going to copy over from another project.
+
+`commit: 0fb4b7832b11a03eaf52b90068136fa3e282bc9e`
+
+### 15:14 Design Data Model
