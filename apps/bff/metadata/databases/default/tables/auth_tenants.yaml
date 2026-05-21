@@ -1,0 +1,46 @@
+table:
+  name: tenants
+  schema: auth
+array_relationships:
+  - name: bookings
+    using:
+      foreign_key_constraint_on:
+        column: tenant_id
+        table:
+          name: bookings
+          schema: data
+  - name: guests
+    using:
+      foreign_key_constraint_on:
+        column: tenant_id
+        table:
+          name: guests
+          schema: data
+  - name: listings
+    using:
+      foreign_key_constraint_on:
+        column: tenant_id
+        table:
+          name: listings
+          schema: data
+  - name: messages
+    using:
+      foreign_key_constraint_on:
+        column: tenant_id
+        table:
+          name: messages
+          schema: data
+  - name: pending_messages
+    using:
+      foreign_key_constraint_on:
+        column: tenant_id
+        table:
+          name: messages_pending
+          schema: data
+  - name: threads
+    using:
+      foreign_key_constraint_on:
+        column: tenant_id
+        table:
+          name: threads
+          schema: data

@@ -1,0 +1,21 @@
+table:
+  name: bookings
+  schema: data
+object_relationships:
+  - name: channel
+    using:
+      foreign_key_constraint_on: channel_id
+  - name: listing
+    using:
+      foreign_key_constraint_on: listing_id
+  - name: tenant
+    using:
+      foreign_key_constraint_on: tenant_id
+array_relationships:
+  - name: threads
+    using:
+      foreign_key_constraint_on:
+        column: booking_id
+        table:
+          name: threads
+          schema: data

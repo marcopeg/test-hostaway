@@ -1,0 +1,28 @@
+table:
+  name: threads
+  schema: data
+object_relationships:
+  - name: booking
+    using:
+      foreign_key_constraint_on: booking_id
+  - name: listing
+    using:
+      foreign_key_constraint_on: listing_id
+  - name: tenant
+    using:
+      foreign_key_constraint_on: tenant_id
+array_relationships:
+  - name: messages
+    using:
+      foreign_key_constraint_on:
+        column: thread_id
+        table:
+          name: messages
+          schema: data
+  - name: pending_messages
+    using:
+      foreign_key_constraint_on:
+        column: thread_id
+        table:
+          name: messages_pending
+          schema: data

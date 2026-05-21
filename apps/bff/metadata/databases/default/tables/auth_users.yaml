@@ -2,21 +2,17 @@ table:
   name: users
   schema: auth
 array_relationships:
-  - name: todos
+  - name: messages
     using:
       foreign_key_constraint_on:
-        column: user_id
+        column: operator_id
         table:
-          name: todos
+          name: messages
           schema: data
-select_permissions:
-  - role: user
-    permission:
-      columns:
-        - id
-        - username
-      filter:
-        id:
-          _eq: X-Hasura-User-Id
-      limit: 1
-    comment: ""
+  - name: pending_messages
+    using:
+      foreign_key_constraint_on:
+        column: operator_id
+        table:
+          name: messages_pending
+          schema: data

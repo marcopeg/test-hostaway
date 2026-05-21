@@ -1,0 +1,16 @@
+table:
+  name: messages
+  schema: data
+object_relationships:
+  - name: guest
+    using:
+      foreign_key_constraint_on: guest_id
+  - name: operator
+    using:
+      foreign_key_constraint_on: operator_id
+  - name: tenant
+    using:
+      foreign_key_constraint_on: tenant_id
+  - name: thread
+    using:
+      foreign_key_constraint_on: thread_id

@@ -1,0 +1,11 @@
+table:
+  name: channels
+  schema: data
+array_relationships:
+  - name: bookings
+    using:
+      foreign_key_constraint_on:
+        column: channel_id
+        table:
+          name: bookings
+          schema: data
