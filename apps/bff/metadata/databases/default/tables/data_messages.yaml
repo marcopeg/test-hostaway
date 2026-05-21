@@ -14,3 +14,18 @@ object_relationships:
   - name: thread
     using:
       foreign_key_constraint_on: thread_id
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - guest_id
+        - id
+        - message
+        - operator_id
+        - sent_at
+        - tenant_id
+        - thread_id
+        - updated_at
+      filter:
+        tenant_id:
+          _eq: X-Hasura-Tenant-Id

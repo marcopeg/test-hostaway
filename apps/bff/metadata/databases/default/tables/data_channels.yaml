@@ -9,3 +9,19 @@ array_relationships:
         table:
           name: bookings
           schema: data
+  - name: threads
+    using:
+      foreign_key_constraint_on:
+        column: channel_id
+        table:
+          name: threads
+          schema: data
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - icon
+        - id
+        - name
+        - updated_at
+      filter: {}

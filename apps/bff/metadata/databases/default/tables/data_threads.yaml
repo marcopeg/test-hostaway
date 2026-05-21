@@ -5,6 +5,9 @@ object_relationships:
   - name: booking
     using:
       foreign_key_constraint_on: booking_id
+  - name: channel
+    using:
+      foreign_key_constraint_on: channel_id
   - name: listing
     using:
       foreign_key_constraint_on: listing_id
@@ -26,3 +29,21 @@ array_relationships:
         table:
           name: messages_pending
           schema: data
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - booking_id
+        - channel_id
+        - id
+        - listing_id
+        - mood_updated_at
+        - mood_value
+        - tenant_id
+        - title
+        - topic_updated_at
+        - topic_value
+        - updated_at
+      filter:
+        tenant_id:
+          _eq: X-Hasura-Tenant-Id

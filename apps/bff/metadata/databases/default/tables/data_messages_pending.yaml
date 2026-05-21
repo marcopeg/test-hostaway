@@ -11,3 +11,31 @@ object_relationships:
   - name: thread
     using:
       foreign_key_constraint_on: thread_id
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        thread:
+          tenant_id:
+            _eq: X-Hasura-Tenant-Id
+      columns:
+        - message
+        - sent_at
+        - thread_id
+      set:
+        operator_id: x-hasura-user-id
+        tenant_id: x-hasura-tenant-id
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - id
+        - message
+        - operator_id
+        - sent_at
+        - tenant_id
+        - thread_id
+        - updated_at
+      filter:
+        tenant_id:
+          _eq: X-Hasura-Tenant-Id

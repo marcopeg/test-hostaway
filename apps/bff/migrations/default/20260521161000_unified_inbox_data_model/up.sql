@@ -54,6 +54,7 @@ CREATE TABLE data.bookings (
 CREATE TABLE data.threads (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   tenant_id text NOT NULL REFERENCES auth.tenants(id) ON DELETE CASCADE,
+  channel_id text NOT NULL REFERENCES data.channels(id) ON DELETE RESTRICT,
   listing_id text REFERENCES data.listings(id) ON DELETE SET NULL,
   booking_id text REFERENCES data.bookings(id) ON DELETE SET NULL,
   title text NOT NULL,
@@ -92,6 +93,8 @@ CREATE INDEX bookings_tenant_id_idx ON data.bookings(tenant_id);
 CREATE INDEX bookings_listing_id_idx ON data.bookings(listing_id);
 CREATE INDEX bookings_channel_id_idx ON data.bookings(channel_id);
 CREATE INDEX threads_tenant_id_idx ON data.threads(tenant_id);
+CREATE INDEX threads_channel_id_idx ON data.threads(channel_id);
+CREATE INDEX threads_tenant_id_channel_id_idx ON data.threads(tenant_id, channel_id);
 CREATE INDEX threads_listing_id_idx ON data.threads(listing_id);
 CREATE INDEX threads_booking_id_idx ON data.threads(booking_id);
 CREATE INDEX messages_tenant_id_idx ON data.messages(tenant_id);

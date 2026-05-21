@@ -13,3 +13,15 @@ array_relationships:
         table:
           name: messages
           schema: data
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - icon
+        - id
+        - name
+        - tenant_id
+        - updated_at
+      filter:
+        tenant_id:
+          _eq: X-Hasura-Tenant-Id

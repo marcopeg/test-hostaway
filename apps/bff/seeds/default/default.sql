@@ -74,18 +74,18 @@ VALUES
   ('b07', 'gre', 'l04', 'vrb', '2026-06-03T15:00:00Z', '2026-06-08T10:00:00Z', 'pre-booking', '2026-05-21T10:20:00Z'),
   ('b08', 'blu', 'l09', 'bkc', '2026-06-01T15:00:00Z', '2026-06-05T10:00:00Z', 'booked', '2026-05-21T10:20:00Z');
 
-INSERT INTO data.threads (id, tenant_id, listing_id, booking_id, title, mood_value, mood_updated_at, topic_value, topic_updated_at, updated_at)
+INSERT INTO data.threads (id, tenant_id, channel_id, listing_id, booking_id, title, mood_value, mood_updated_at, topic_value, topic_updated_at, updated_at)
 VALUES
-  ('00000000-0000-4000-8000-000000002001', 'gre', 'l01', 'b01', 'Arrival time and door code', 'neutral', '2026-05-21T10:40:00Z', 'check-in-issue', '2026-05-21T10:40:00Z', '2026-05-21T10:40:00Z'),
-  ('00000000-0000-4000-8000-000000002002', 'gre', 'l02', 'b02', 'Question before confirming stay', 'happy', '2026-05-21T10:41:00Z', 'payment_issue', '2026-05-21T10:41:00Z', '2026-05-21T10:41:00Z'),
-  ('00000000-0000-4000-8000-000000002003', 'blu', 'l06', 'b03', 'Air conditioning stopped cooling', 'frustrated', '2026-05-21T10:42:00Z', 'appliance-incident', '2026-05-21T10:42:00Z', '2026-05-21T10:42:00Z'),
-  ('00000000-0000-4000-8000-000000002004', 'blu', 'l07', 'b04', 'Security deposit follow up', 'neutral', '2026-05-21T10:43:00Z', 'payment_issue', '2026-05-21T10:43:00Z', '2026-05-21T10:43:00Z'),
-  ('00000000-0000-4000-8000-000000002005', 'sun', 'l11', 'b05', 'Late checkout request', 'happy', '2026-05-21T10:44:00Z', 'check-in-issue', '2026-05-21T10:44:00Z', '2026-05-21T10:44:00Z'),
-  ('00000000-0000-4000-8000-000000002006', 'gre', 'l03', NULL, 'Is parking included?', NULL, NULL, NULL, NULL, '2026-05-21T10:45:00Z'),
-  ('00000000-0000-4000-8000-000000002007', 'blu', 'l08', NULL, 'Noise from nearby renovation', 'angry', '2026-05-21T10:46:00Z', 'guest_complaint', '2026-05-21T10:46:00Z', '2026-05-21T10:46:00Z'),
-  ('00000000-0000-4000-8000-000000002008', 'sun', 'l13', NULL, 'Pool heating availability', NULL, NULL, NULL, NULL, '2026-05-21T10:47:00Z'),
-  ('00000000-0000-4000-8000-000000002009', 'sun', 'l14', NULL, 'Broken patio chair photo', 'frustrated', '2026-05-21T10:48:00Z', 'guest-incident', '2026-05-21T10:48:00Z', '2026-05-21T10:48:00Z'),
-  ('00000000-0000-4000-8000-000000002010', 'gre', 'l05', NULL, 'Can we bring two bicycles?', NULL, NULL, NULL, NULL, '2026-05-21T10:49:00Z');
+  ('00000000-0000-4000-8000-000000002001', 'gre', 'air', 'l01', 'b01', 'Arrival time and door code', 'neutral', '2026-05-21T10:40:00Z', 'check-in-issue', '2026-05-21T10:40:00Z', '2026-05-21T10:40:00Z'),
+  ('00000000-0000-4000-8000-000000002002', 'gre', 'bkc', 'l02', 'b02', 'Question before confirming stay', 'happy', '2026-05-21T10:41:00Z', 'payment_issue', '2026-05-21T10:41:00Z', '2026-05-21T10:41:00Z'),
+  ('00000000-0000-4000-8000-000000002003', 'blu', 'vrb', 'l06', 'b03', 'Air conditioning stopped cooling', 'frustrated', '2026-05-21T10:42:00Z', 'appliance-incident', '2026-05-21T10:42:00Z', '2026-05-21T10:42:00Z'),
+  ('00000000-0000-4000-8000-000000002004', 'blu', 'exp', 'l07', 'b04', 'Security deposit follow up', 'neutral', '2026-05-21T10:43:00Z', 'payment_issue', '2026-05-21T10:43:00Z', '2026-05-21T10:43:00Z'),
+  ('00000000-0000-4000-8000-000000002005', 'sun', 'gvr', 'l11', 'b05', 'Late checkout request', 'happy', '2026-05-21T10:44:00Z', 'check-in-issue', '2026-05-21T10:44:00Z', '2026-05-21T10:44:00Z'),
+  ('00000000-0000-4000-8000-000000002006', 'gre', 'air', 'l03', NULL, 'Is parking included?', NULL, NULL, NULL, NULL, '2026-05-21T10:45:00Z'),
+  ('00000000-0000-4000-8000-000000002007', 'blu', 'vrb', 'l08', NULL, 'Noise from nearby renovation', 'angry', '2026-05-21T10:46:00Z', 'guest_complaint', '2026-05-21T10:46:00Z', '2026-05-21T10:46:00Z'),
+  ('00000000-0000-4000-8000-000000002008', 'sun', 'gvr', 'l13', NULL, 'Pool heating availability', NULL, NULL, NULL, NULL, '2026-05-21T10:47:00Z'),
+  ('00000000-0000-4000-8000-000000002009', 'sun', 'air', 'l14', NULL, 'Broken patio chair photo', 'frustrated', '2026-05-21T10:48:00Z', 'guest-incident', '2026-05-21T10:48:00Z', '2026-05-21T10:48:00Z'),
+  ('00000000-0000-4000-8000-000000002010', 'gre', 'bkc', 'l05', NULL, 'Can we bring two bicycles?', NULL, NULL, NULL, NULL, '2026-05-21T10:49:00Z');
 
 INSERT INTO data.messages (id, thread_id, tenant_id, operator_id, guest_id, message, sent_at, updated_at)
 VALUES

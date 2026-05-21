@@ -1,3 +1,4 @@
 # Completed
 
 - [QC03: Define unified inbox data model](./QC03-define-unified-inbox-data-model/QC03.task.md) | [plan](./QC03-define-unified-inbox-data-model/QC03.plan.md) | [notes](./QC03-define-unified-inbox-data-model/QC03.notes.md) | [v1](./QC03-define-unified-inbox-data-model/QC03.question.v1.md) | [artifact](./QC03-define-unified-inbox-data-model/avatar-docs.md)
+- [ML37: Add unified inbox Hasura permissions and thread channel support](./ML37-add-unified-inbox-hasura-permissions-and-thread-channel-support/ML37.task.md) | [plan](./ML37-add-unified-inbox-hasura-permissions-and-thread-channel-support/ML37.plan.md) | [notes](./ML37-add-unified-inbox-hasura-permissions-and-thread-channel-support/ML37.notes.md) | [v1](./ML37-add-unified-inbox-hasura-permissions-and-thread-channel-support/ML37.question.v1.md)
