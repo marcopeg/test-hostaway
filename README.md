@@ -1,6 +1,6 @@
 # Hostaway Code Test
 
-Hello Dear Reviewer,
+Hello Dear Reviewer,  
 Thank you for taking the time to review this work.
 
 Before you continue, let me say that it's been fun, **and actually difficult** to work this out in the alloted timebox - which I have failed by about 50%.
