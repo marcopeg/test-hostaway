@@ -22,6 +22,7 @@ array_relationships:
 select_permissions:
   - role: user
     permission:
+      allow_aggregations: true
       columns:
         - channel_id
         - end_date

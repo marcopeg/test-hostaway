@@ -17,6 +17,7 @@ object_relationships:
 select_permissions:
   - role: user
     permission:
+      allow_aggregations: true
       columns:
         - guest_id
         - id

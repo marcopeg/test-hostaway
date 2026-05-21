@@ -7,7 +7,8 @@
     "password": "hasura",
     "headers": {
       "role": "user",
-      "user-id": "jh"
+      "tenant-id": "gre",
+      "user-id": "amy"
     }
   },
   "scripts": {

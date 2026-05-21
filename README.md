@@ -1,5 +1,12 @@
 # Hostaway Code Test
 
+Hello Dear Reviewer,
+Thank you for taking the time to review this work.
+
+Before you continute, let me say that it's been fun, **and actually difficult** to work this out in the alloted timebox - which I have failed by about 50%.
+
+In this document you will find a **detailed journal of the development experience**. Each step links to the relevant commit so you can easily check it out and "watch" my progress through the exercise.
+
 For this test I used:
 
 - coffee, lot of it
@@ -8,6 +15,23 @@ For this test I used:
 - Hasura.io
 - React / Apollo Client / React Router / Tailwind
 - more coffee
+
+## QuickStart
+
+```bash
+# This should work on Mac and Linux.
+make boot
+
+# If it doesn't, try this.
+docker compose up -d
+(cd apps/webapp && npm install && npm run dev)
+
+# If it still doesnt work,
+echo "Call me in for the discussion anyway and we can check it out together ;-)"
+```
+
+You should get the app going at:  
+http://localhost:5173
 
 ## System Design
 
@@ -70,3 +94,48 @@ As mentioned, I'm going to copy over from another project.
 `commit: 0fb4b7832b11a03eaf52b90068136fa3e282bc9e`
 
 ### 15:14 Design Data Model
+
+This is the tough one.
+
+Honestly, I'm wasting time thinking that every channel may have its own internal representation of listings, guests, and bookings.
+
+I'm going to make some wild simplifications here.  
+The more I dig into the draft task, the more I realize it's not a kid's game.  
+I will not manage view receipts or stuff like that.  
+Maybe tonight.
+
+`commit: d19da00ad8ad91b5a687d75b3ee4e4febbad9136`
+
+### 15:50 Design Mood Board
+
+Started the task to extract mood board for ui from screenshot.  
+This is a long shot.  
+Let's see.
+
+The result of this step is a mocked UI that looks rather nice to me:
+![mood-ui](./docs/artifacts/mood-ui.png)
+
+`commit: 3aa66b72c6779f84abb654a8dbc6fc295aede9cd``
+
+### ~2h and a Half
+
+Ok, I'm out of the basic allotted time. That's the status update:
+
+- basic system design in place
+- basic unified data model propsal in place (I did that waayyyyy to quickly though, it leaks!)
+- basic UI definition and driving skill in place
+- replicable system in place, should be very developer friendly and AI-enabled
+
+I worked this out in a light-speed spec-driven so it's possible to follow each task, refinement, implementation plan and execution notes:
+
+![backlog](./docs/artifacts/backlog.png)
+
+_(I have a local Electron App that let me visually follow and manage my in-repo backlogs 😉)_
+
+There is a massive feature ongoing (YW27) that potentially will implement one-shot the whole basic working demo. I have mixed feelings about it, it's a lot in one single feature.
+
+### 16:40
+
+I have drafted a MASSIVE TASK (I would NEVER do that for real... this was a real stretch... but it's a first iteration and I'm out of time) to generate the functionalities all at once.
+
+`commit: ba7ccd3247b184e02e037cfd7c9d0572e56409ca`

@@ -14,7 +14,6 @@
 
 ## WIP
 
-- [OG27: Create Hostaway UI moodboard signature](./wip/OG27-create-hostaway-ui-moodboard-signature/OG27.task.md) | [plan](./wip/OG27-create-hostaway-ui-moodboard-signature/OG27.plan.md) | [notes](./wip/OG27-create-hostaway-ui-moodboard-signature/OG27.notes.md)
 
 ## Blocked
 

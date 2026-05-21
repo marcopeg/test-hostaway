@@ -28,6 +28,7 @@ insert_permissions:
 select_permissions:
   - role: user
     permission:
+      allow_aggregations: true
       columns:
         - id
         - message
