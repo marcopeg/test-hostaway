@@ -7,6 +7,8 @@ Before you continue, let me say that it's been fun, **and actually difficult** t
 
 In this document you will find a **detailed journal of the development experience**. Each step links to the relevant commit so you can easily check it out and "watch" my progress through the exercise.
 
+![demo](./demo.gif)
+
 📽️ [Watch the Demo Video](./WATCHME.mp4)
 
 For this test I used:
