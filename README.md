@@ -3,7 +3,7 @@
 Hello Dear Reviewer,
 Thank you for taking the time to review this work.
 
-Before you continute, let me say that it's been fun, **and actually difficult** to work this out in the alloted timebox - which I have failed by about 50%.
+Before you continue, let me say that it's been fun, **and actually difficult** to work this out in the alloted timebox - which I have failed by about 50%.
 
 In this document you will find a **detailed journal of the development experience**. Each step links to the relevant commit so you can easily check it out and "watch" my progress through the exercise.
 
