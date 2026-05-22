@@ -144,6 +144,10 @@ app.start:
 	@echo "Starting the Frontend App on local NodeJS..." ;
 	(cd $(frontend) && npm run dev) ;
 
+test.api:
+	@echo "Running Hasura API tests..."
+	(cd $(frontend) && npm run test:api) ;
+
 app.clean:
 	@echo "Cleaning up frontend dependencies..."
 	@rm -rf ./$(frontend)/package-lock.json
