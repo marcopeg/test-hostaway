@@ -1,0 +1,16 @@
+{
+  "name": "hostaway-test",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "test:api": "vitest run --config vitest.config.ts",
+    "test:ui": "playwright test --config playwright.config.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^24.12.3",
+    "typescript": "~6.0.2",
+    "vitest": "^4.1.7"
+  }
+}

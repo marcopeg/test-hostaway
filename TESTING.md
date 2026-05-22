@@ -1,6 +1,6 @@
 # Testing Strategy
 
-This project currently has no automated tests. The recommended setup is:
+This project keeps automated tests in the top-level `test` package:
 
 - Vitest for Hasura GraphQL API tests that validate permissions, happy paths, and tenant isolation.
 - Playwright for browser-level happy path and visual end-to-end checks around the inbox.
@@ -23,7 +23,8 @@ make start
 make init
 ```
 
-Start the frontend when running Playwright:
+Playwright starts the frontend automatically through `test/playwright.config.ts`.
+You can still start it manually while iterating:
 
 ```bash
 make app.start
@@ -39,45 +40,44 @@ make init
 
 ## Install Test Dependencies
 
-Install Vitest and Playwright inside the webapp package, because this is where the frontend build and TypeScript config live:
+Install Vitest and Playwright inside the top-level `test` package:
 
 ```bash
-cd apps/webapp
+cd test
 npm install -D vitest @playwright/test
 npx playwright install
 ```
 
-Add scripts to `apps/webapp/package.json`:
+The root `Makefile` is the public interface:
 
-```json
-{
-  "scripts": {
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui"
-  }
-}
+```bash
+make test.api
+make test.ui
+make test.ui.headed
+make test.ui.debug
+make test.ui.ui
 ```
 
-Suggested file layout:
+Current file layout:
 
 ```text
-apps/webapp/
+test/
+  package.json
   playwright.config.ts
-  tests/
-    hasura/
-      graphql.ts
-      tenancy.test.ts
-    e2e/
-      inbox.spec.ts
+  vitest.config.ts
+  api/
+    graphql.ts
+    tenancy.test.ts
+  ui/
+    inbox.spec.ts
+    navigation.spec.ts
 ```
 
 ## Vitest: Hasura Tenancy Tests
 
 These tests should call Hasura directly with normal application headers, not with admin-only queries. The goal is to prove that the `user` role can only see and mutate rows scoped to `x-hasura-tenant-id`.
 
-Create `apps/webapp/tests/hasura/graphql.ts`:
+Create `test/api/graphql.ts`:
 
 ```ts
 type GraphQLHeaders = {
@@ -120,7 +120,7 @@ export const graphql = async <T>(
 }
 ```
 
-Create `apps/webapp/tests/hasura/tenancy.test.ts`:
+Create `test/api/tenancy.test.ts`:
 
 ```ts
 import { describe, expect, it } from 'vitest'
@@ -255,8 +255,7 @@ describe('Hasura tenancy isolation', () => {
 Run the suite:
 
 ```bash
-cd apps/webapp
-npm run test -- tests/hasura
+make test.api
 ```
 
 ### Hasura Cases To Cover
@@ -291,14 +290,15 @@ Playwright should validate that the product workflow works through the browser:
 6. See the reply appear as a pending operator response.
 7. Capture screenshots for visual regression.
 
-Create `apps/webapp/playwright.config.ts`:
+Create `test/playwright.config.ts`:
 
 ```ts
 import { defineConfig, devices } from '@playwright/test'
 
 export default defineConfig({
-  testDir: './tests/e2e',
+  testDir: './ui',
   fullyParallel: false,
+  workers: 1,
   retries: process.env.CI ? 2 : 0,
   use: {
     baseURL: process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:5173',
@@ -313,13 +313,14 @@ export default defineConfig({
   ],
   webServer: {
     command: 'npm run dev -- --host 127.0.0.1 --port 5173',
+    cwd: '../apps/webapp',
     url: 'http://127.0.0.1:5173',
     reuseExistingServer: !process.env.CI,
   },
 })
 ```
 
-Create `apps/webapp/tests/e2e/inbox.spec.ts`:
+Create `test/ui/inbox.spec.ts`:
 
 ```ts
 import { expect, test } from '@playwright/test'
@@ -359,15 +360,14 @@ test.describe('inbox', () => {
 Run the suite:
 
 ```bash
-cd apps/webapp
-npm run test:e2e
+make test.ui
 ```
 
 Update visual snapshots intentionally:
 
 ```bash
-cd apps/webapp
-npm run test:e2e -- --update-snapshots
+cd test
+npm run test:ui -- --update-snapshots
 ```
 
 ### Selector Hardening
@@ -394,13 +394,17 @@ cd apps/webapp
 npm ci
 npm run lint
 npm run build
-npm run test
-npm run test:e2e
+cd ../..
+cd test
+npm ci
+cd ..
+make test.api
+make test.ui
 ```
 
 For reliable CI, split API tests and browser tests into separate jobs:
 
-- API job: backend only, runs `npm run test -- tests/hasura`.
-- E2E job: backend plus Vite dev server, runs `npm run test:e2e`.
+- API job: backend only, runs `make test.api`.
+- E2E job: backend plus Vite dev server, runs `make test.ui`.
 
 If test runtime becomes a problem, move the backend lifecycle into Testcontainers so each Vitest worker gets an isolated Hasura/Postgres instance. Until then, keep Hasura tests serial or reset the backend before each suite to avoid pending-message inserts leaking between tests.

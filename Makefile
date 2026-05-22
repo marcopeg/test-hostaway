@@ -6,6 +6,7 @@ endpoint?=http://localhost:8080
 passwd?=hasura
 project?=apps/bff
 frontend?=apps/webapp
+test?=test
 conn?=default
 db=postgres
 schema?=public
@@ -34,6 +35,7 @@ help:
 	@echo "Frontend Commands:"
 	@echo " 4) make react ................ Starts React dev server"
 	@echo " 5) make react.reset .......... Reinstalls dependencies and runs it again"
+	@echo "    make test.api ............. Runs Vitest Hasura API tests"
 	@echo "    make test.ui .............. Runs Playwright UI tests"
 	@echo "    make test.ui.headed ....... Runs Playwright tests in a visible browser"
 	@echo "    make test.ui.debug ........ Runs Playwright tests with Inspector"
@@ -148,25 +150,31 @@ app.start:
 	@echo "Starting the Frontend App on local NodeJS..." ;
 	(cd $(frontend) && npm run dev) ;
 
-test.ui:
+test.install:
+	@if [ ! -d ./$(test)/node_modules ]; then \
+		echo "Installing test node_modules..." ; \
+		(cd $(test) && npm install) ; \
+	fi ;
+
+test.ui: test.install
 	@echo "Running frontend UI tests..."
-	(cd $(frontend) && npm run test:ui) ;
+	(cd $(test) && npm run test:ui) ;
 
-test.ui.headed:
+test.ui.headed: test.install
 	@echo "Running frontend UI tests in a visible browser..."
-	(cd $(frontend) && npm run test:ui -- --headed) ;
+	(cd $(test) && npm run test:ui -- --headed) ;
 
-test.ui.debug:
+test.ui.debug: test.install
 	@echo "Running frontend UI tests with Playwright Inspector..."
-	(cd $(frontend) && npm run test:ui -- --debug) ;
+	(cd $(test) && npm run test:ui -- --debug) ;
 
-test.ui.ui:
+test.ui.ui: test.install
 	@echo "Opening Playwright interactive test runner..."
-	(cd $(frontend) && npm run test:ui -- --ui) ;
+	(cd $(test) && npm run test:ui -- --ui) ;
 
-test.api:
+test.api: test.install
 	@echo "Running Hasura API tests..."
-	(cd $(frontend) && npm run test:api) ;
+	(cd $(test) && npm run test:api) ;
 
 app.clean:
 	@echo "Cleaning up frontend dependencies..."

@@ -1,7 +1,12 @@
 import { defineConfig, devices } from '@playwright/test'
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const testRoot = dirname(fileURLToPath(import.meta.url))
+const webappRoot = resolve(testRoot, '../apps/webapp')
 
 export default defineConfig({
-  testDir: './tests/e2e',
+  testDir: './ui',
   fullyParallel: false,
   workers: 1,
   retries: process.env.CI ? 2 : 0,
@@ -18,6 +23,7 @@ export default defineConfig({
   ],
   webServer: {
     command: 'npm run dev -- --host 127.0.0.1 --port 5173',
+    cwd: webappRoot,
     reuseExistingServer: !process.env.CI,
     url: 'http://127.0.0.1:5173',
   },
