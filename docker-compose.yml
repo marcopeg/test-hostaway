@@ -65,6 +65,21 @@ services:
       hasura:
         condition: service_healthy
 
+  worker:
+    build:
+      context: apps/worker
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-postgres}@postgres:5432/postgres
+      HASURA_HEALTH_URL: http://hasura:8080/healthz
+      POLL_INTERVAL_MS: "5000"
+    depends_on:
+      hasura:
+        condition: service_healthy
+      boot:
+        condition: service_completed_successfully
+
 volumes:
   postgres:
 

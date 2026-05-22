@@ -43,6 +43,18 @@ const link = split(
 )
 
 export const graphqlClient = new ApolloClient({
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      data_threads: {
+        fields: {
+          booking: { merge: false },
+          channel: { merge: false },
+          listing: { merge: false },
+          messages: { merge: false },
+          pending_messages: { merge: false },
+        },
+      },
+    },
+  }),
   link,
 })

@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { useMutation, useQuery } from '@apollo/client/react'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { humanizeValue, isClassifiedValue } from './format'
 import { InboxViewUI } from './InboxViewUI'
 import type {
@@ -15,79 +15,80 @@ type InboxViewProps = {
   threadId?: string
 }
 
-const GET_INBOX = gql`
-  query GetInbox {
-    data_messages_aggregate {
-      aggregate {
-        count
-      }
-    }
-    data_messages_pending_aggregate {
-      aggregate {
-        count
-      }
-    }
-    data_threads_aggregate {
-      aggregate {
-        count
-      }
-    }
-    data_threads(order_by: { updated_at: desc }) {
-      booking {
-        channel {
-          icon
-          id
-          name
-        }
-        end_date
-        id
-        stage
-        start_date
-      }
+const INBOX_THREAD_FIELDS = gql`
+  fragment InboxThreadFields on data_threads {
+    booking {
       channel {
         icon
         id
         name
       }
+      end_date
       id
-      listing {
+      stage
+      start_date
+    }
+    channel {
+      icon
+      id
+      name
+    }
+    id
+    listing {
+      id
+      name
+    }
+    messages(order_by: { sent_at: asc }) {
+      guest {
+        icon
         id
         name
       }
-      messages(order_by: { sent_at: asc }) {
-        guest {
-          icon
-          id
-          name
-        }
-        guest_id
+      guest_id
+      id
+      message
+      operator {
+        icon
         id
-        message
-        operator {
-          icon
-          id
-          name
-        }
-        operator_id
-        sent_at
+        name
       }
-      mood_value
-      pending_messages(order_by: { sent_at: asc }) {
+      operator_id
+      sent_at
+    }
+    mood_value
+    pending_messages(order_by: { sent_at: asc }) {
+      id
+      message
+      operator {
+        icon
         id
-        message
-        operator {
-          icon
-          id
-          name
-        }
-        operator_id
-        sent_at
+        name
       }
-      title
-      topic_value
-      updated_at
+      operator_id
+      sent_at
+    }
+    title
+    topic_value
+    updated_at
+  }
+`
+
+const INBOX_QUERY = gql`
+  query InboxData {
+    data_threads(order_by: { updated_at: desc }) {
+      ...InboxThreadFields
     }
   }
+  ${INBOX_THREAD_FIELDS}
+`
+
+const INBOX_SUBSCRIPTION = gql`
+  subscription InboxUpdates {
+    data_threads(order_by: { updated_at: desc }) {
+      ...InboxThreadFields
+    }
+  }
+  ${INBOX_THREAD_FIELDS}
 `
 
 const SEND_PENDING_MESSAGE = gql`
@@ -152,12 +153,11 @@ type GraphQLThread = {
   updated_at: string
 }
 
-type InboxQuery = {
-  data_messages_aggregate: { aggregate: { count: number } | null }
-  data_messages_pending_aggregate: { aggregate: { count: number } | null }
+type InboxDataQuery = {
   data_threads: Array<GraphQLThread>
-  data_threads_aggregate: { aggregate: { count: number } | null }
 }
+
+type InboxSubscription = InboxDataQuery
 
 type SendPendingMessageMutation = {
   insert_data_messages_pending_one: {
@@ -247,18 +247,24 @@ const mapThread = (thread: GraphQLThread): InboxThread => {
   }
 }
 
-const createStats = (data?: InboxQuery): InboxStats => {
-  const threads = data?.data_threads.map(mapThread) ?? []
-  const pendingMessages = data?.data_messages_pending_aggregate.aggregate?.count ?? 0
-  const persistedMessages = data?.data_messages_aggregate.aggregate?.count ?? 0
+const createStats = (threads: Array<InboxThread>): InboxStats => {
+  const pendingMessages = threads.reduce(
+    (total, thread) =>
+      total + thread.messages.filter((message) => message.isPending).length,
+    0,
+  )
+  const totalMessages = threads.reduce(
+    (total, thread) => total + thread.messages.length,
+    0,
+  )
 
   return {
     bookingStages: countBy(threads.map((thread) => thread.booking?.stage)),
     moods: countBy(threads.map((thread) => thread.mood)),
     pendingMessages,
-    threads: data?.data_threads_aggregate.aggregate?.count ?? threads.length,
+    threads: threads.length,
     topics: countBy(threads.map((thread) => thread.topic)),
-    totalMessages: persistedMessages + pendingMessages,
+    totalMessages,
     unanswered: threads.filter((thread) => thread.isUnanswered).length,
   }
 }
@@ -268,19 +274,30 @@ export const InboxView = ({ threadId }: InboxViewProps) => {
     data,
     error,
     loading: isLoading,
-    refetch,
-  } = useQuery<InboxQuery>(GET_INBOX)
+    subscribeToMore,
+  } = useQuery<InboxDataQuery>(INBOX_QUERY, {
+    fetchPolicy: 'network-only',
+    nextFetchPolicy: 'cache-first',
+  })
   const [sendPendingMessage, { loading: isSending }] = useMutation<
     SendPendingMessageMutation,
     SendPendingMessageVariables
   >(SEND_PENDING_MESSAGE)
+
+  useEffect(() => {
+    return subscribeToMore<InboxSubscription>({
+      document: INBOX_SUBSCRIPTION,
+      updateQuery: (previousData, { subscriptionData }) =>
+        subscriptionData.data ?? previousData,
+    })
+  }, [subscribeToMore])
 
   const threads = useMemo(
     () => data?.data_threads.map(mapThread) ?? [],
     [data?.data_threads],
   )
   const selectedThread = threads.find((thread) => thread.id === threadId)
-  const stats = useMemo(() => createStats(data), [data])
+  const stats = useMemo(() => createStats(threads), [threads])
 
   const handleSendReply = (message: string) => {
     if (!threadId) {
@@ -293,7 +310,7 @@ export const InboxView = ({ threadId }: InboxViewProps) => {
         sentAt: new Date().toISOString(),
         threadId,
       },
-    }).then(() => refetch())
+    })
   }
 
   return (
