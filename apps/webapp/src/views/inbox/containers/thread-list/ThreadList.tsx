@@ -115,6 +115,8 @@ export const ThreadList = ({
               className={`flex min-h-24 gap-3 px-4 py-3 transition-colors hover:bg-hw-surface ${
                 isSelected ? 'bg-hw-surface' : 'bg-hw-app'
               }`}
+              data-testid="inbox-thread-link"
+              data-thread-id={thread.id}
               params={{ threadId: thread.id }}
               to="/inbox/$threadId"
             >

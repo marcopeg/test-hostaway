@@ -20,6 +20,9 @@ const MessageBubble = ({ message }: { message: InboxMessage }) => {
   return (
     <article
       className={`flex gap-3 ${isOperator ? 'justify-end pl-14' : 'justify-start pr-14'}`}
+      data-message-id={message.id}
+      data-sender-kind={message.senderKind}
+      data-testid="inbox-message"
     >
       {!isOperator ? (
         <img

@@ -34,6 +34,10 @@ help:
 	@echo "Frontend Commands:"
 	@echo " 4) make react ................ Starts React dev server"
 	@echo " 5) make react.reset .......... Reinstalls dependencies and runs it again"
+	@echo "    make test.ui .............. Runs Playwright UI tests"
+	@echo "    make test.ui.headed ....... Runs Playwright tests in a visible browser"
+	@echo "    make test.ui.debug ........ Runs Playwright tests with Inspector"
+	@echo "    make test.ui.ui ........... Opens Playwright's interactive test runner"
 	@echo ""
 	@echo "State Management:               (depends on hasura-cli)"
 	@echo " 6) make init ................. Applies the local state"
@@ -143,6 +147,22 @@ app.install:
 app.start:
 	@echo "Starting the Frontend App on local NodeJS..." ;
 	(cd $(frontend) && npm run dev) ;
+
+test.ui:
+	@echo "Running frontend UI tests..."
+	(cd $(frontend) && npm run test:ui) ;
+
+test.ui.headed:
+	@echo "Running frontend UI tests in a visible browser..."
+	(cd $(frontend) && npm run test:ui -- --headed) ;
+
+test.ui.debug:
+	@echo "Running frontend UI tests with Playwright Inspector..."
+	(cd $(frontend) && npm run test:ui -- --debug) ;
+
+test.ui.ui:
+	@echo "Opening Playwright interactive test runner..."
+	(cd $(frontend) && npm run test:ui -- --ui) ;
 
 test.api:
 	@echo "Running Hasura API tests..."
